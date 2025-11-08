@@ -1,0 +1,13 @@
+[package]
+name = "anyrun-timestamp"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+matcher = { path="../matcher" }
+anyrun-plugin = { git = "https://github.com/Kirottu/anyrun" }
+abi_stable = "0.11.1"
+chrono = "0.4.42"

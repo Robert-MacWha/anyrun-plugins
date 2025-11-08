@@ -1,0 +1,15 @@
+[package]
+name = "anyrun-vscode"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+matcher = { path="../matcher" }
+anyrun-plugin = { git = "https://github.com/Kirottu/anyrun" }
+abi_stable = "0.11.1"
+serde = "1.0.228"
+serde_json = "1.0.145"
+dirs = "6.0.0"

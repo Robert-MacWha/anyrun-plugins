@@ -1,0 +1,3 @@
+[workspace]
+resolver = "3"
+members = ["anyrun-timestamp", "anyrun-vscode", "anyrun-watson", "matcher"]

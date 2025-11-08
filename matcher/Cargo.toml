@@ -1,0 +1,8 @@
+[package]
+name = "matcher"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyrun-plugin = { git = "https://github.com/Kirottu/anyrun" }
+abi_stable = "0.11.1"
