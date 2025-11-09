@@ -96,7 +96,7 @@ fn get_matcher() -> Box<dyn Matcher> {
     }
     let matcher = StaticMatcher::new()
         .with_child(
-            SimpleMatch::new("list", "text-x-generic", ""),
+            SimpleMatch::new("ls", "text-x-generic", ""),
             Box::new(list_matches),
         )
         .with_child(

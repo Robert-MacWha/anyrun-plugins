@@ -10,14 +10,6 @@ pub struct Todo {
 }
 
 impl Todo {
-    pub fn new(title: String, created_at: NaiveDate, completed_at: Option<NaiveDate>) -> Self {
-        Todo {
-            title,
-            created_at,
-            completed_at,
-        }
-    }
-
     pub fn from_str(s: &str) -> Option<Self> {
         let s = s.trim();
         if !s.starts_with("- [") {
@@ -74,11 +66,11 @@ mod tests {
 
     #[test]
     fn test_todo() {
-        let todo = Todo::new(
-            "Buy milk".into(),
-            NaiveDate::from_ymd_opt(2024, 6, 1).unwrap(),
-            None,
-        );
+        let todo = Todo {
+            title: "Buy milk".into(),
+            created_at: NaiveDate::from_ymd_opt(2024, 6, 1).unwrap(),
+            completed_at: None,
+        };
 
         let todo_str = todo.to_string();
         assert_eq!(
@@ -92,11 +84,11 @@ mod tests {
 
     #[test]
     fn test_todo_completed() {
-        let todo = Todo::new(
-            "Buy milk".into(),
-            NaiveDate::from_ymd_opt(2024, 6, 1).unwrap(),
-            Some(NaiveDate::from_ymd_opt(2025, 6, 1).unwrap()),
-        );
+        let todo = Todo {
+            title: "Buy milk".into(),
+            created_at: NaiveDate::from_ymd_opt(2024, 6, 1).unwrap(),
+            completed_at: Some(NaiveDate::from_ymd_opt(2025, 6, 1).unwrap()),
+        };
 
         let todo_str = todo.to_string();
         assert_eq!(
