@@ -87,8 +87,9 @@ fn get_matcher() -> Result<Box<dyn Matcher>, String> {
             .next()
             .unwrap_or(&project)
             .to_string();
+        let command = format!("exec|code \"{}\"", project);
         matcher = matcher.with_child(
-            SimpleMatch::new(&name, "folder", &project),
+            SimpleMatch::new(&name, "folder", &command),
             Box::new(NoopMatcher),
         );
     }
