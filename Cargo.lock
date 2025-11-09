@@ -98,6 +98,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "anyrun-todo"
+version = "0.1.0"
+dependencies = [
+ "abi_stable",
+ "anyrun-plugin",
+ "chrono",
+ "matcher",
+]
+
+[[package]]
 name = "anyrun-vscode"
 version = "0.1.0"
 dependencies = [

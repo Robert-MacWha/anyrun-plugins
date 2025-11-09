@@ -63,6 +63,7 @@ impl Matcher for StaticMatcher {
         let description = selection.description.clone();
         if description.starts_with("exec|") {
             let command = description.trim_start_matches("exec|");
+            println!("Executing command: {}", command);
             let output = Command::new("sh").arg("-c").arg(command).output();
 
             if let Err(e) = output {
@@ -76,6 +77,7 @@ impl Matcher for StaticMatcher {
 
         if description.starts_with("copy|") {
             let to_copy = description.trim_start_matches("copy|");
+            println!("Copying to clipboard: {}", to_copy);
             return HandleResult::Copy(to_copy.as_bytes().into());
         }
 

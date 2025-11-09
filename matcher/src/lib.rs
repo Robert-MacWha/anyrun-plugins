@@ -1,4 +1,6 @@
+pub mod handler_display;
 pub mod handler_display_command;
+pub mod handler_wildcard_command;
 pub mod matcher_static;
 use abi_stable::std_types::ROption;
 use anyrun_plugin::{HandleResult, Match};
