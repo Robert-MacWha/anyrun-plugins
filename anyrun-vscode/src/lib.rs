@@ -51,9 +51,9 @@ fn get_matches(input: RString) -> RVec<Match> {
     let matcher = get_matcher();
     let matcher = match matcher {
         Ok(m) => m,
-        Err(_) => {
+        Err(e) => {
             return RVec::from(vec![
-                SimpleMatch::new("Could not retrieve recent VSCode workspaces", "error", "").into(),
+                SimpleMatch::new("Could not retrieve recent VSCode workspaces", "error", &e).into(),
             ]);
         }
     };
@@ -77,7 +77,7 @@ fn handler(selection: Match) -> HandleResult {
 fn get_matcher() -> Result<Box<dyn Matcher>, String> {
     let recent_projects = match get_recent_projects() {
         Ok(projects) => projects,
-        Err(_) => return Err("Could not retrieve recent VSCode workspaces".into()),
+        Err(e) => return Err(e),
     };
 
     let mut matcher = StaticMatcher::new().with_max_results(MAX_RESULTS);
