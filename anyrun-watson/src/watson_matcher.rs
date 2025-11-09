@@ -84,10 +84,10 @@ impl Matcher for ProjectMatcher {
         // Add matches for known combinations of projects and tags
         for combo in &self.combinations {
             let project = &combo.project;
-            let tags = &combo.tags;
-            if project.contains(text) {
-                let tags_str = tags.iter().map(|t| format!("+{} ", t)).collect::<String>();
-                let title = format!("{} {}", project, tags_str);
+            let tags: &Vec<String> = &combo.tags;
+            let tags_str = tags.iter().map(|t| format!("+{} ", t)).collect::<String>();
+            let title = format!("{} {}", project, tags_str);
+            if title.contains(text) {
                 let command = format!("exec|watson start {} {}", project, tags_str);
                 matches.push(SimpleMatch::new(&title, "", &command));
             }
