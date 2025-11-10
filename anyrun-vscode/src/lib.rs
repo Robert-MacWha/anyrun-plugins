@@ -1,12 +1,9 @@
-use std::{
-    path::PathBuf,
-    process::{Command, Stdio},
-};
-
 use abi_stable::std_types::{RString, RVec};
 use anyrun_plugin::{HandleResult, Match, PluginInfo, get_matches, handler, info, init};
 use matcher::{Matcher, NoopMatcher, SimpleMatch, matcher_static::StaticMatcher};
+use rusqlite::Connection;
 use serde::Deserialize;
+use std::path::PathBuf;
 
 #[derive(Deserialize)]
 struct RecentlyOpened {
@@ -103,28 +100,18 @@ fn get_recent_projects() -> Result<Vec<String>, String> {
         return Err("VSCode state file not found".into());
     }
 
-    // Check if sqlite3 is available
-    if Command::new("sqlite3")
-        .arg("--version")
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .status()
-        .is_err()
-    {
-        return Err("sqlite3 command not found".into());
-    }
+    let conn = Connection::open(&path).map_err(|e| format!("Failed to open database: {}", e))?;
 
-    let output = Command::new("sqlite3")
-        .arg(&path)
-        .arg("SELECT value FROM ItemTable WHERE key='history.recentlyOpenedPathsList';")
-        .output()
-        .map_err(|_| "Failed to execute sqlite3".to_string())?;
+    let json_data: String = conn
+        .query_row(
+            "SELECT value FROM ItemTable WHERE key='history.recentlyOpenedPathsList'",
+            [],
+            |row| row.get(0),
+        )
+        .map_err(|e| format!("Failed to query database: {}", e))?;
 
-    let text = String::from_utf8(output.stdout)
-        .map_err(|_| "Invalid UTF-8 in sqlite output".to_string())?;
-
-    let data: RecentlyOpened = serde_json::from_str(&text)
-        .map_err(|_| "Failed to parse VSCode history JSON".to_string())?;
+    let data: RecentlyOpened = serde_json::from_str(&json_data)
+        .map_err(|e| format!("Failed to parse VSCode history JSON: {}", e))?;
 
     let mut result = Vec::new();
     for entry in data.entries {
