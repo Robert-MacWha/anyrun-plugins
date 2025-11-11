@@ -64,7 +64,7 @@ impl Matcher for StaticMatcher {
         if description.starts_with("exec|") {
             let command = description.trim_start_matches("exec|");
             println!("Executing command: {}", command);
-            let output = Command::new("setsid").arg("-c").arg(command).output();
+            let output = Command::new("sh").arg("-c").arg(command).output();
 
             if let Err(e) = output {
                 // TODO: Find a good way to report errors, perhaps bubbling up to the UI.
